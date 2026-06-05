@@ -1,0 +1,28 @@
+{
+  "home": {
+    "title": "The Song of the Void",
+    "start": "Start your adventure"
+  },
+
+  "auth": {
+    "login": "Login",
+    "register": "Create account",
+    "email": "Email",
+    "pseudo": "Pseudo",
+    "password": "Password",
+    "forgottenPass": "Forgot your password ?"
+  },
+
+  "navigation": {
+    "home": "Home",
+    "guest": "Guest",
+    "profil": "Profil",
+    "logout": "Logout"
+  },
+
+  "dashboard": {
+    "newGame": "Star new game",
+    "continue": "Continue game",
+    "options": "Options"
+  }
+}

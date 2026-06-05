@@ -1,0 +1,28 @@
+{
+  "home": {
+    "title": "Le Chant du Vide",
+    "start": "Commencer l'aventure"
+  },
+
+  "auth": {
+    "login": "Connexion",
+    "register": "Créer un compte",
+    "email": "Adresse email",
+    "pseudo": "Pseudo",
+    "password": "Mot de passe",
+    "forgottenPass": "Mot de passe oublié ?"
+  },
+
+  "navigation": {
+    "home": "Accueil",
+    "guest": "Invité",
+    "profil": "Profile",
+    "logout": "Déconnexion"
+  },
+
+  "dashboard": {
+    "newGame": "Débuter une partie",
+    "continue": "Continuer une partie",
+    "options": "Options"
+  }
+}
