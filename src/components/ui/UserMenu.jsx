@@ -1,9 +1,7 @@
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { logout as logoutAction } from "../../features/auth/authSlice"
-import { logout as logoutApi } from '../../services/auth.service'
+import { logout } from "../../features/auth/authSlice"
 import { useNavigate } from 'react-router-dom'
-
 import { useTranslation } from 'react-i18next'
 
 export default function UserMenu({ user }) {
@@ -13,9 +11,7 @@ export default function UserMenu({ user }) {
   const { t } = useTranslation()
 
   const handleLogout = () => {
-    localStorage.removeItem('token')
-    dispatch(logoutAction())
-    navigate('/')
+    dispatch(logout())
   }
 
   return (

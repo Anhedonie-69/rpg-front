@@ -24,5 +24,23 @@
     "newGame": "Star new game",
     "continue": "Continue game",
     "options": "Options"
+  },
+
+  "news": {
+    "bigTitle": "News",
+    "editNews": "Edit news",
+    "noNews": "No news.",
+    "newsManagement": "News Management",
+    "editOneNew": "Edit news",
+    "createNews": "Create news",
+    "title": "Title",
+    "content": "Content",
+    "author": "Author (Optional, otherwise your username)",
+    "edit": "Edit",
+    "create": "Create",
+    "cancel": "Cancel",
+    "existingNews": "Existing News",
+    "from": "From",
+    "delete": "Cancel"
   }
 }

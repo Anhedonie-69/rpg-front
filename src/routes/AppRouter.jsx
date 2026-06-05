@@ -3,6 +3,8 @@ import Home from '../pages/Home'
 import Login from '../pages/Login'
 import Register from '../pages/Register'
 import Dashboard from '../pages/Dashboard'
+import AdminNews from '../pages/AdminNews'
+import AdminRoute from './AdminRoute'
 
 import ProtectedRoute from './ProtectedRoute'
 import GuestRoute from './GuestRoute'
@@ -11,29 +13,34 @@ export default function AppRouter() {
   return (
     <Routes>
       <Route path="/" element={
-          //<GuestRoute>
+          <GuestRoute>
             <Home />
-          //</GuestRoute>
+          </GuestRoute>
         }
       />
       <Route path="/login" element={
-        //<GuestRoute>
+        <GuestRoute>
           <Login />
-        //</GuestRoute>
+        </GuestRoute>
         }
       />
       <Route path="/register" element={
-        //<GuestRoute>
+        <GuestRoute>
           <Register />
-        //</GuestRoute>
+        </GuestRoute>
         }
       />
       <Route path="/dashboard" element={
-        //<ProtectedRoute>
+        <ProtectedRoute>
           <Dashboard />
-        //</ProtectedRoute>
+        </ProtectedRoute>
         }
       />
+      <Route path="/admin/news" element={
+        <AdminRoute>
+          <AdminNews />
+        </AdminRoute>
+      } />
     </Routes>
   )
 }

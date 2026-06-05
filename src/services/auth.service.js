@@ -28,10 +28,6 @@ export const fetchMe = async (token) => {
   return res.json();
 };
 
-export const logout = () => {
-  localStorage.removeItem('token');
-};
-
 export const authFetch = (url, options = {}) => {
   const token = localStorage.getItem('token');
   return fetch(`${API_URL}${url}`, {

@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate, Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { login } from '../services/auth.service'
+import { login, fetchMe } from '../services/auth.service'
 import { setUser } from '../features/auth/authSlice'
 import Layout from '../components/layout/Layout'
 
@@ -21,9 +21,11 @@ export default function Login() {
     try {
       const data = await login(form.email, form.password)
       const user = await fetchMe(data.token)
+
       dispatch(setUser({ token: data.token, user }))
       navigate('/')
     } catch (err) {
+      console.log('ERREUR COMPLETE:', err)
       setError(err.error || 'Email ou mot de passe incorrect')
     }
   }

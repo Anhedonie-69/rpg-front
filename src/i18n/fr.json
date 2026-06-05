@@ -24,5 +24,23 @@
     "newGame": "Débuter une partie",
     "continue": "Continuer une partie",
     "options": "Options"
+  },
+
+  "news": {
+    "bigTitle": "Actualités",
+    "editNews": "Gérer les actualités",
+    "noNews": "Aucune actualité.",
+    "newsManagement": "Gestion des actualités",
+    "editOneNew": "Modifier une actualité",
+    "createNews": "Créer une actualité",
+    "title": "Titre",
+    "content": "Contenu",
+    "author": "Auteur (optionnel, sinon votre pseudo)",
+    "edit": "Modifier",
+    "create": "Créer",
+    "cancel": "Annuler",
+    "existingNews": "News existantes",
+    "from": "Par",
+    "delete": "Supprimer"
   }
 }
