@@ -1,9 +1,10 @@
 import { Routes, Route } from 'react-router-dom'
+import AdminNews from '../pages/AdminNews'
+import Dashboard from '../pages/Dashboard'
 import Home from '../pages/Home'
 import Login from '../pages/Login'
+import Profile from '../pages/Profile'
 import Register from '../pages/Register'
-import Dashboard from '../pages/Dashboard'
-import AdminNews from '../pages/AdminNews'
 import AdminRoute from './AdminRoute'
 
 import ProtectedRoute from './ProtectedRoute'
@@ -40,6 +41,11 @@ export default function AppRouter() {
         <AdminRoute>
           <AdminNews />
         </AdminRoute>
+      } />
+      <Route path="/profile" element={
+        <ProtectedRoute>
+          <Profile />
+        </ProtectedRoute>
       } />
     </Routes>
   )

@@ -17,7 +17,8 @@
     "home": "Home",
     "guest": "Guest",
     "profil": "Profil",
-    "logout": "Logout"
+    "logout": "Logout",
+    "loading": "Loading"
   },
 
   "dashboard": {
@@ -42,5 +43,17 @@
     "existingNews": "Existing News",
     "from": "From",
     "delete": "Cancel"
+  },
+
+  "profile": {
+    "title": "My profil",
+    "pseudo": "Pseudo",
+    "language": "Language",
+    "bio": "Biography",
+    "birthDate": "Birth date",
+    "country": "Country",
+    "avatar": "Avatar (URL)",
+    "save": "Save",
+    "memberSince": "Member since"
   }
 }

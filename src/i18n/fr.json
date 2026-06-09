@@ -17,7 +17,8 @@
     "home": "Accueil",
     "guest": "Invité",
     "profil": "Profile",
-    "logout": "Déconnexion"
+    "logout": "Déconnexion",
+    "loading": "Chargement"
   },
 
   "dashboard": {
@@ -42,5 +43,17 @@
     "existingNews": "News existantes",
     "from": "Par",
     "delete": "Supprimer"
+  },
+
+  "profile": {
+    "title": "Mon profil",
+    "pseudo": "Pseudo",
+    "language": "Langue",
+    "bio": "Biographie",
+    "birthDate": "Date de naissance",
+    "country": "Pays",
+    "avatar": "Avatar (URL)",
+    "save": "Enregistrer",
+    "memberSince": "Membre depuis"
   }
 }

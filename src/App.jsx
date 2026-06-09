@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setUser, logout, setLoading } from './features/auth/authSlice'
 import { fetchMe } from './services/auth.service'
 import AppRouter from './routes/AppRouter'
+import { applyUserLanguage } from './utils/language'
 
 export default function App() {
   const dispatch = useDispatch()
@@ -20,6 +21,7 @@ export default function App() {
     fetchMe(token)
       .then(user => {
         dispatch(setUser({ token, user }))
+        applyUserLanguage(user)
       })
       .catch(() => {
         // Token expiré ou invalide → on nettoie

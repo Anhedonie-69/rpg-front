@@ -19,7 +19,7 @@ export default function Header() {
       <Link
         to="/"
         className="font-bold text-xl">
-        {t('home.title')}
+        {t('navigation.home')}
       </Link>
 
       {/* Center - navigation (optionnel plus tard) */}

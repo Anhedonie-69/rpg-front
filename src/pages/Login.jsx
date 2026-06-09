@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate, Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { applyUserLanguage } from '../utils/language'
 import { login, fetchMe } from '../services/auth.service'
 import { setUser } from '../features/auth/authSlice'
 import Layout from '../components/layout/Layout'
@@ -23,6 +24,7 @@ export default function Login() {
       const user = await fetchMe(data.token)
 
       dispatch(setUser({ token: data.token, user }))
+      applyUserLanguage(user)
       navigate('/')
     } catch (err) {
       console.log('ERREUR COMPLETE:', err)
