@@ -10,7 +10,8 @@
     "email": "Adresse email",
     "pseudo": "Pseudo",
     "password": "Mot de passe",
-    "forgottenPass": "Mot de passe oublié ?"
+    "forgottenPass": "Mot de passe oublié ?",
+    "error": "Email ou mot de passe incorrect"
   },
 
   "navigation": {

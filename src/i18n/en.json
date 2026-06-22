@@ -5,12 +5,13 @@
   },
 
   "auth": {
-    "login": "Login",
-    "register": "Create account",
+    "login": "Log in",
+    "register": "Sign up",
     "email": "Email",
     "pseudo": "Pseudo",
     "password": "Password",
-    "forgottenPass": "Forgot your password ?"
+    "forgottenPass": "Forgot your password ?",
+    "error": "Incorrect email or password"
   },
 
   "navigation": {

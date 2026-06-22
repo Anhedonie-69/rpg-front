@@ -39,7 +39,7 @@ export default function Login() {
           <h1 className="text-2xl">{t('auth.login')}</h1>
 
           {error && (
-            <p className="text-red-400 text-sm">{error}</p>
+            <p className="text-red-400 text-sm">{t("auth.error")}</p>
           )}
 
           <input

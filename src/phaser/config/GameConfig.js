@@ -1,0 +1,13 @@
+export default {
+  WIDTH: 1920,
+  HEIGHT: 1080,
+
+  WORLD_WIDTH: 5000,
+  WORLD_HEIGHT: 5000,
+
+  PLAYER_SPEED: 200,
+
+  CAMERA_ZOOM: 2,
+
+  TILE_SIZE: 32
+}

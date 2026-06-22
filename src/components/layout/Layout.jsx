@@ -9,7 +9,7 @@ export default function Layout({ children }) {
       <Header />
 
       <div
-        className="min-h-screen text-white"
+        className="flex-1 text-white"
         style={{
           backgroundImage: "url('/img/Univers.jpg')",
           backgroundSize: 'contain',
@@ -18,9 +18,9 @@ export default function Layout({ children }) {
         }}
       >
         <div className="flex flex-col items-center mt-10 gap-6 px-4">
-        <h1 className="text-4xl font-bold">
-          {t('home.title')}
-        </h1>
+          <h1 className="text-4xl font-bold">
+            {t('home.title')}
+          </h1>
         </div>
         {children}
       </div>
