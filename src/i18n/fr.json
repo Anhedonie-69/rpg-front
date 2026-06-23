@@ -56,5 +56,30 @@
     "avatar": "Avatar (URL)",
     "save": "Enregistrer",
     "memberSince": "Membre depuis"
-  }
+  },
+
+  "options": {
+    "title": "Options",
+    "audio": "Audio",
+    "volumeMaster": "Volume général",
+    "volumeMusic": "Musique",
+    "volumeSfx": "Effets sonores",
+    "display": "Affichage",
+    "fullscreen": "Plein écran",
+    "showFps": "Afficher les FPS",
+    "textSpeed": "Vitesse du texte",
+    "slow": "Lente",
+    "normal": "Normale",
+    "fast": "Rapide",
+    "keyboard": "Clavier",
+    "keyUp": "Haut",
+    "keyDown": "Bas",
+    "keyLeft": "Gauche",
+    "keyRight": "Droite",
+    "keyInteract": "Interagir",
+    "keyInventory": "Inventaire",
+    "keyMap": "Carte",
+    "keyCancel": "Annuler",
+    "save": "Sauvegarder"
+  }  
 }

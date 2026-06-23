@@ -1,9 +1,11 @@
 import Phaser from 'phaser'
-import InputConfig from '../config/InputConfig'
+import { store } from '../../app/store'
 
 export default class InputManager {
     constructor(scene) {
-        this.scene = scene  
+        this.scene = scene 
+
+        const layout = store.getState().user?.options?.keyboardLayout || 'azerty'
 
         const layouts = {
             azerty: {
@@ -21,7 +23,7 @@ export default class InputManager {
             }
         }
 
-        const activeLayout = layouts[InputConfig.layout]
+        const activeLayout = layouts[layout]
 
         this.keys = scene.input.keyboard.addKeys({
             up: activeLayout.up,

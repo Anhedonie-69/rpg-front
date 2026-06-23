@@ -56,5 +56,30 @@
     "avatar": "Avatar (URL)",
     "save": "Save",
     "memberSince": "Member since"
-  }
+  },
+
+  "options": {
+    "title": "Options",
+    "audio": "Audio",
+    "volumeMaster": "Master",
+    "volumeMusic": "Music",
+    "volumeSfx": "SFX",
+    "display": "Display",
+    "fullscreen": "Fullscreen",
+    "showFps": "Show FPS",
+    "textSpeed": "Text speed",
+    "slow": "Slow",
+    "normal": "Normal",
+    "fast": "Fast",
+    "keyboard": "Keyboard",
+    "keyUp": "Up",
+    "keyDown": "Down",
+    "keyLeft": "Left",
+    "keyRight": "Right",
+    "keyInteract": "Interact",
+    "keyInventory": "Inventory",
+    "keyMap": "Map",
+    "keyCancel": "Cancel",
+    "save": "Save"
+  }  
 }

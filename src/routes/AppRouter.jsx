@@ -5,6 +5,7 @@ import Dashboard from '../pages/Dashboard'
 import Game from '../pages/Game'
 import Home from '../pages/Home'
 import Login from '../pages/Login'
+import Options from '../pages/Options'
 import Profile from '../pages/Profile'
 import Register from '../pages/Register'
 
@@ -61,6 +62,11 @@ export default function AppRouter() {
       <Route path="/new-game" element={
         <ProtectedRoute>
           <Game />
+        </ProtectedRoute>
+      } />
+      <Route path="/options" element={
+        <ProtectedRoute>
+          <Options />
         </ProtectedRoute>
       } />
     </Routes>
