@@ -1,30 +1,44 @@
 import Phaser from 'phaser'
 import GameConfig from '../config/GameConfig';
 import InputManager from '../managers/InputManager';
+import MapManager from '../managers/MapManager'
 
-export default class MainScene extends Phaser.Scene {
+export default class TestScene extends Phaser.Scene {
 
     constructor() {
-        super('MainScene')
+        super('TestScene')
     }
 
     preload() {
+        // Charge le tileset (image PNG)
+        this.load.image('tiles', '/assets/img/tiles/tiles.png')
+        // Charge la map JSON exportée depuis Tiled
+        this.load.tilemapTiledJSON('test', '/assets/img/maps/map_test.json')
+
         this.load.image('player', '/assets/pouce_benni2.png')
     }
 
     create() {
-        this.scale.on('resize', this.resize, this)
 
         const centerX = this.scale.width / 2
         const centerY = this.scale.height / 2
 
+        // Joueur
         this.player = this.physics.add.sprite(centerX, centerY, 'player')
-
-        this.inputManager = new InputManager(this)
-
+        this.player.setDepth(5)
         this.player.setCollideWorldBounds(true)
 
+        // Map
+        this.mapManager = new MapManager(this)
+        this.mapManager
+            .loadMap('test', 'tiles')
+            .setupCamera(this.player)
+            .addCollider(this.player)
+
+        // Input
+        this.inputManager = new InputManager(this)
         this.cursors = this.input.keyboard.createCursorKeys()
+        this.scale.on('resize', this.resize, this)
     }
 
     resize(gameSize) {

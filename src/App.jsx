@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setUser, logout, setLoading } from './features/auth/authSlice'
+import { setOptions } from './features/user/userSlice'
 import { fetchMe } from './services/auth.service'
 import AppRouter from './routes/AppRouter'
 import { applyUserLanguage } from './utils/language'

@@ -5,14 +5,11 @@ import { createGame } from '../phaser/game'
 
 export default function Game() {
 
+  const TEST_MODE = true 
+
   useEffect(() => {
-
-    const game = createGame()
-
-    return () => {
-      game.destroy(true)
-    }
-
+      const game = createGame(TEST_MODE)
+      return () => game.destroy(true)
   }, [])
 
   return (

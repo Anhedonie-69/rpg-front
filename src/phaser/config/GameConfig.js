@@ -8,6 +8,7 @@ export default {
   PLAYER_SPEED: 200,
 
   CAMERA_ZOOM: 2,
-
+  CAMERA_ZOOM_MIN: 1,
+  CAMERA_ZOOM_MAX: 4,
   TILE_SIZE: 32
 }

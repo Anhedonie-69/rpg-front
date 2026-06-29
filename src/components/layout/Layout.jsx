@@ -11,7 +11,7 @@ export default function Layout({ children }) {
       <div
         className="flex-1 text-white"
         style={{
-          backgroundImage: "url('/img/Univers.jpg')",
+          backgroundImage: "url('/assets/img/Univers.jpg')",
           backgroundSize: 'contain',
           backgroundRepeat: 'no-repeat',
           backgroundPosition: 'center'
