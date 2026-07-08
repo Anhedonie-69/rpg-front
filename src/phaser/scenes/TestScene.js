@@ -1,7 +1,9 @@
 import Phaser from 'phaser'
 import GameConfig from '../config/GameConfig';
 import InputManager from '../managers/InputManager';
-import MapManager from '../managers/MapManager'
+import MapManager from '../managers/MapManager';
+import TriggerManager from '../managers/TriggerManager';
+import PlayerManager from '../managers/PlayerManager';
 
 export default class TestScene extends Phaser.Scene {
 
@@ -10,61 +12,62 @@ export default class TestScene extends Phaser.Scene {
     }
 
     preload() {
-        // Charge le tileset (image PNG)
-        this.load.image('tiles', '/assets/img/tiles/tiles.png')
-        // Charge la map JSON exportée depuis Tiled
-        this.load.tilemapTiledJSON('test', '/assets/img/maps/map_test.json')
+        const mapId = 'zone_test'
+        MapManager.preload(this, mapId)
 
-        this.load.image('player', '/assets/pouce_benni2.png')
+        // Délègue le preload au PlayerManager
+        this.playerManager = new PlayerManager(this)
+        this.playerManager.preload(this)
     }
 
     create() {
 
-        const centerX = this.scale.width / 2
-        const centerY = this.scale.height / 2
-
         // Joueur
-        this.player = this.physics.add.sprite(centerX, centerY, 'player')
-        this.player.setDepth(5)
-        this.player.setCollideWorldBounds(true)
-
+        this.playerManager.create(200, 200)
+        
         // Map
         this.mapManager = new MapManager(this)
         this.mapManager
-            .loadMap('test', 'tiles')
-            .setupCamera(this.player)
-            .addCollider(this.player)
+            .loadMap('zone_test')
+            .setupCamera(this.playerManager.getSprite())
+            .addCollider(this.playerManager.getSprite())
+
+        // TriggerManager
+        this.triggerManager = new TriggerManager(this, this.playerManager.getSprite())
+        this.triggerManager
+            .on('combat', (data) => {
+                // console.log('Combat déclenché !', data)
+                // Pause TestScene et lance CombatScene par dessus
+                this.scene.pause('TestScene')
+                this.scene.launch('BattleScene', data)
+            })
+            .on('map_transition', (data) => {
+                console.log('Transition vers', data.targetMap)
+                // Plus tard : changer de map
+            })
+            .on('dialogue', (data) => {
+                console.log('Dialogue', data.dialogueId)
+                // Plus tard : this.scene.launch('DialogueScene', data)
+            })
+            .on('event', (data) => {
+                console.log('Événement', data.eventId)
+            })
 
         // Input
         this.inputManager = new InputManager(this)
-        this.cursors = this.input.keyboard.createCursorKeys()
+
+        //this.cursors = this.input.keyboard.createCursorKeys()
         this.scale.on('resize', this.resize, this)
     }
 
     resize(gameSize) {
         const { width, height } = gameSize
-
         this.cameras.main.setViewport(0, 0, width, height)
     } 
 
     update() {
-
-        this.player.setVelocity(0)
-
-        if (this.inputManager.isLeftPressed()) {
-          this.player.setVelocityX(-GameConfig.PLAYER_SPEED)
-        }
-
-        if (this.inputManager.isRightPressed()) {
-          this.player.setVelocityX(GameConfig.PLAYER_SPEED)
-        }
-
-        if (this.inputManager.isUpPressed()) {
-          this.player.setVelocityY(-GameConfig.PLAYER_SPEED)
-        }
-
-        if (this.inputManager.isDownPressed()) {
-          this.player.setVelocityY(GameConfig.PLAYER_SPEED)
-        }
+        this.playerManager.update(this.inputManager, GameConfig.PLAYER_SPEED)
+        this.triggerManager.update(this.mapManager.layers.triggers)
     }
+
 }

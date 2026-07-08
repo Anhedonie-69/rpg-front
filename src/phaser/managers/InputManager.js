@@ -34,7 +34,10 @@ export default class InputManager {
             interact: Phaser.Input.Keyboard.KeyCodes.E,
             inventory: Phaser.Input.Keyboard.KeyCodes.I,
             map: Phaser.Input.Keyboard.KeyCodes.M,
-            attack: Phaser.Input.Keyboard.KeyCodes.SPACE
+            attack: Phaser.Input.Keyboard.KeyCodes.SPACE,
+            escape:    Phaser.Input.Keyboard.KeyCodes.ESC,
+            enter:     Phaser.Input.Keyboard.KeyCodes.ENTER,
+            pause:     Phaser.Input.Keyboard.KeyCodes.P,
         })
     }
 
@@ -43,8 +46,16 @@ export default class InputManager {
     isLeftPressed() { return this.keys.left.isDown }
     isRightPressed() { return this.keys.right.isDown }
 
-    isInteractPressed() { return this.keys.interact.isDown }
-    isInventoryPressed() { return this.keys.inventory.isDown }
-    isMapPressed() { return this.keys.map.isDown }
-    isAttackPressed() { return this.keys.attack.isDown }
+    // isInteractPressed() { return this.keys.interact.isDown }
+    isInteractJustPressed() { return Phaser.Input.Keyboard.JustDown(this.keys.interact) }
+    // isInventoryPressed() { return this.keys.inventory.isDown }
+    isInventoryJustPressed() { return Phaser.Input.Keyboard.JustDown(this.keys.inventory)}
+    // isMapPressed() { return this.keys.map.isDown }
+    isMapJustPressed() { return Phaser.Input.Keyboard.JustDown(this.keys.map)}
+    // isAttackPressed() { return this.keys.attack.isDown }
+    isAttackJustPressed() { return Phaser.Input.Keyboard.JustDown(this.keys.attack)}
+
+    isEscapePressed()  { return Phaser.Input.Keyboard.JustDown(this.keys.escape) }
+    isEnterPressed()   { return Phaser.Input.Keyboard.JustDown(this.keys.enter) }
+    isPausePressed()   { return Phaser.Input.Keyboard.JustDown(this.keys.pause) }
 }

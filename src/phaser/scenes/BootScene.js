@@ -1,23 +1,25 @@
 import Phaser from 'phaser'
+import { store } from '../../app/store'
 
 export default class BootScene extends Phaser.Scene {
     constructor() {
         super('BootScene')
     }
 
-    init(data) {
-        
-    }
-
-    preload() {
-        
-    }
-
     create() {
+        const gameState = store.getState().game
 
-    }
-
-    update() {
-        
+        if (gameState.isPlaying) {
+            // Reprend une partie en cours
+            this.scene.start('PreloadScene', {
+                mapId:  gameState.mapId,
+                posX:   gameState.posX,
+                posY:   gameState.posY,
+            })
+        } else {
+            // Nouvelle partie → Dashboard
+            // Le jeu ne devrait pas démarrer sans save active
+            console.warn('Aucune partie active — retour au dashboard')
+        }
     }
 }

@@ -1,5 +1,5 @@
-// src/phaser/managers/MapManager.js
 import GameConfig from '../config/GameConfig'
+import MapConfig from '../config/MapConfig'
 
 export default class MapManager {
     constructor(scene) {
@@ -7,14 +7,30 @@ export default class MapManager {
         this.map = null
         this.tileset = null
         this.layers = {}
+        this.currentMapId = null
     }
 
-    loadMap(mapKey, tilesetKey) {
-        // Crée la tilemap
-        this.map = this.scene.make.tilemap({ key: mapKey })
-        
-        // Associe le tileset
-        this.tileset = this.map.addTilesetImage('Map', tilesetKey)
+    // Précharge les assets d'une map
+    static preload(scene, mapId) {
+        const mapData = MapConfig.maps[mapId]
+        if (!mapData) {
+            console.error(`Map inconnue : ${mapId}`)
+            return
+        }
+        scene.load.image(`tileset_${mapId}`, mapData.tileset)
+        scene.load.tilemapTiledJSON(mapId, mapData.json)
+    }
+
+    loadMap(mapId) {
+        const mapData = MapConfig.maps[mapId]
+        if (!mapData) {
+            console.error(`Map inconnue : ${mapId}`)
+            return this
+        }
+
+        this.currentMapId = mapId
+        this.map = this.scene.make.tilemap({ key: mapId })
+        this.tileset = this.map.addTilesetImage('Map', `tileset_${mapId}`)
         
         // Crée les layers dans l'ordre (important pour le rendu)
         this.layers.ground  = this.map.createLayer('Ground', this.tileset, 0, 0)
@@ -29,6 +45,9 @@ export default class MapManager {
         if (this.layers.above) {
             this.layers.above.setDepth(10)
         }
+
+        // Rend visible ou non les triggers
+        if (this.layers.triggers) this.layers.triggers.setVisible(true)
 
         // Bounds physiques et caméra
         this.scene.physics.world.setBounds(

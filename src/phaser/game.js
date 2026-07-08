@@ -4,7 +4,7 @@ import GameConfig from './config/GameConfig'
 import BootScene from './scenes/BootScene'
 import PreloadScene from './scenes/PreloadScene'
 import WorldScene from './scenes/WorldScene'
-import CombatScene from './scenes/CombatScene'
+import BattleScene from './scenes/BattleScene'
 import InventoryScene from './scenes/InventoryScene'
 import TestScene from './scenes/TestScene'
 
@@ -21,7 +21,7 @@ const config = {
     physics: {
         default: 'arcade',
         arcade: {
-            debug: true
+            //debug: true
         }
     },
 
@@ -34,7 +34,7 @@ const config = {
         BootScene,
         PreloadScene,
         WorldScene,
-        CombatScene,
+        BattleScene,
         InventoryScene,
         TestScene
     ]
@@ -46,8 +46,8 @@ export const createGame = (testMode = false) => {
     const gameConfig = {
         ...config,
         scene: testMode
-            ? [TestScene]
-            : [BootScene, PreloadScene, WorldScene, CombatScene, InventoryScene]
+            ? [TestScene, BattleScene]
+            : [BootScene, PreloadScene, WorldScene, BattleScene, InventoryScene]
     }
     return new Phaser.Game(gameConfig)
 }
