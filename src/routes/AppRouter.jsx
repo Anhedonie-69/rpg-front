@@ -64,6 +64,11 @@ export default function AppRouter() {
           <Game />
         </ProtectedRoute>
       } />
+      <Route path="/game" element={
+        <ProtectedRoute>
+            <Game />
+        </ProtectedRoute>
+      } />
       <Route path="/options" element={
         <ProtectedRoute>
           <Options />

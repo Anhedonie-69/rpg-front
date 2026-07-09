@@ -42,12 +42,19 @@ const config = {
 
 // MODE TEST → lance directement TestScene
 // MODE PROD → lance BootScene
-export const createGame = (testMode = false) => {
+export const createGame = (testMode = false, gameState = null) => {
     const gameConfig = {
         ...config,
         scene: testMode
             ? [TestScene, BattleScene]
             : [BootScene, PreloadScene, WorldScene, BattleScene, InventoryScene]
     }
-    return new Phaser.Game(gameConfig)
+    const game = new Phaser.Game(gameConfig)
+
+    // Passe gameState directement sans attendre 'ready'
+    if (!testMode && gameState) {
+        game.scene.start('BootScene', { gameState })
+    }
+
+    return game
 }

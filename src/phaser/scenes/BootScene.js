@@ -1,25 +1,27 @@
 import Phaser from 'phaser'
-import { store } from '../../app/store'
+import MapManager from '../managers/MapManager'
+import MapConfig from '../config/MapConfig'
 
 export default class BootScene extends Phaser.Scene {
     constructor() {
         super('BootScene')
     }
 
-    create() {
-        const gameState = store.getState().game
+    init(data) {
+        this.gameState = data?.gameState
+    }
 
-        if (gameState.isPlaying) {
-            // Reprend une partie en cours
-            this.scene.start('PreloadScene', {
-                mapId:  gameState.mapId,
-                posX:   gameState.posX,
-                posY:   gameState.posY,
-            })
-        } else {
-            // Nouvelle partie → Dashboard
-            // Le jeu ne devrait pas démarrer sans save active
-            console.warn('Aucune partie active — retour au dashboard')
-        }
+    preload() {
+        // Précharge les assets selon la map
+        const mapId = this.gameState?.mapId ?? MapConfig.defaultMap
+        MapManager.preload(this, mapId)
+    }
+
+    create() {
+        this.scene.start('WorldScene', {
+            mapId: this.gameState?.mapId ?? MapConfig.defaultMap,
+            posX:  this.gameState?.posX  ?? MapConfig.defaultX,
+            posY:  this.gameState?.posY  ?? MapConfig.defaultY,
+        })
     }
 }

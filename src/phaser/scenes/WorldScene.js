@@ -13,37 +13,28 @@ export default class WorldScene extends Phaser.Scene {
     }
 
     init(data) {
-        // Reçoit les données de la save
-        this.saveData = data ?? store.getState().game
+        this.mapId  = data?.mapId ?? 'zone_test'
+        this.spawnX = data?.posX  ?? 200
+        this.spawnY = data?.posY  ?? 200
     }
 
     preload() {
-        // Assets dynamiques selon la map
-        const mapId = this.saveData?.mapId ?? 'zone_test'
-        MapManager.preload(this, mapId)
+        // Précharge la map
+        MapManager.preload(this, this.mapId)
 
-        // Joueur si pas déjà chargé par PreloadScene
-        if (!this.textures.exists('player_idle')) {
-            this.playerManager = new PlayerManager(this)
-            this.playerManager.preload(this)
-        }
+        // Précharge le joueur ici !
+        this.playerManager = new PlayerManager(this)
+        this.playerManager.preload(this)
     }
 
     create() {
-        const mapId  = this.saveData?.mapId ?? 'zone_test'
-        const spawnX = this.saveData?.posX  ?? 200
-        const spawnY = this.saveData?.posY  ?? 200
+        // Joueur
+        this.playerManager.create(this.spawnX, this.spawnY)
 
         // Map
         this.mapManager = new MapManager(this)
-        this.mapManager.loadMap(mapId)
-
-        // Joueur
-        this.playerManager = this.playerManager ?? new PlayerManager(this)
-        this.playerManager.create(spawnX, spawnY)
-
-        // Caméra et collisions
         this.mapManager
+            .loadMap(this.mapId)
             .setupCamera(this.playerManager.getSprite())
             .addCollider(this.playerManager.getSprite())
 

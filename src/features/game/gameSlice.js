@@ -33,6 +33,19 @@ const gameSlice = createSlice({
       state.partyIds   = save.partyIds
       state.isPlaying  = true
     },
+    newGame: (state) => {
+        state.activeSlot = null
+        state.mapId      = 'zone_test'  // ta map de départ
+        state.posX       = 200
+        state.posY       = 200
+        state.playTime   = 0
+        state.gold       = 0
+        state.chapter    = 1
+        state.flags      = {}
+        state.partyIds   = []
+        state.isPlaying  = true
+        state.isPaused   = false
+    },
     updatePosition: (state, action) => {
       state.posX = action.payload.x
       state.posY = action.payload.y
@@ -73,6 +86,7 @@ const gameSlice = createSlice({
 
 export const {
   loadSave,
+  newGame,
   updatePosition,
   updatePlayTime,
   addGold,
