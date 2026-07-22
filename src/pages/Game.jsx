@@ -8,7 +8,7 @@ export default function Game() {
     const navigate = useNavigate()
     const gameState = useSelector(state => state.game)
 
-    const TEST_MODE = false
+    const TEST_MODE = true
 
     useEffect(() => {
         // Sécurité — pas de partie active → retour dashboard

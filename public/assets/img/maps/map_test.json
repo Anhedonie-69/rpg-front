@@ -34,6 +34,51 @@
          "y":0
         }, 
         {
+         "color":"#ff0000",
+         "draworder":"topdown",
+         "id":5,
+         "name":"NPCs",
+         "objects":[
+                {
+                 "height":25,
+                 "id":2,
+                 "name":"",
+                 "opacity":1,
+                 "properties":[
+                        {
+                         "name":"dialogueId",
+                         "type":"string",
+                         "value":"dialogue_vieux_sage"
+                        }, 
+                        {
+                         "name":"name",
+                         "type":"string",
+                         "value":"npc_vieux_sage"
+                        }, 
+                        {
+                         "name":"range",
+                         "type":"int",
+                         "value":40
+                        }, 
+                        {
+                         "name":"sprite",
+                         "type":"file",
+                         "value":""
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":23,
+                 "x":452,
+                 "y":291
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
          "data":[0, 0, 0, 0, 0, 0, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 0, 0, 0, 0, 0, 21, 14, 15, 15, 15, 15, 15, 15,
             0, 0, 0, 0, 0, 0, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 0, 0, 0, 0, 0, 21, 14, 15, 15, 15, 15, 15, 15,
             0, 0, 0, 0, 0, 0, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 0, 0, 0, 0, 0, 21, 14, 15, 15, 15, 15, 15, 15,
@@ -152,8 +197,8 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":5,
- "nextobjectid":1,
+ "nextlayerid":6,
+ "nextobjectid":4,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.12.2",

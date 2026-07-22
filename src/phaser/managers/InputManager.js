@@ -46,16 +46,17 @@ export default class InputManager {
     isLeftPressed() { return this.keys.left.isDown }
     isRightPressed() { return this.keys.right.isDown }
 
-    // isInteractPressed() { return this.keys.interact.isDown }
+    
     isInteractJustPressed() { return Phaser.Input.Keyboard.JustDown(this.keys.interact) }
-    // isInventoryPressed() { return this.keys.inventory.isDown }
     isInventoryJustPressed() { return Phaser.Input.Keyboard.JustDown(this.keys.inventory)}
-    // isMapPressed() { return this.keys.map.isDown }
     isMapJustPressed() { return Phaser.Input.Keyboard.JustDown(this.keys.map)}
-    // isAttackPressed() { return this.keys.attack.isDown }
     isAttackJustPressed() { return Phaser.Input.Keyboard.JustDown(this.keys.attack)}
 
     isEscapePressed()  { return Phaser.Input.Keyboard.JustDown(this.keys.escape) }
     isEnterPressed()   { return Phaser.Input.Keyboard.JustDown(this.keys.enter) }
     isPausePressed()   { return Phaser.Input.Keyboard.JustDown(this.keys.pause) }
+
+    resetFlags() {
+        this._interactJustDown = false
+    }
 }

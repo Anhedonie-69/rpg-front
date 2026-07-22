@@ -7,6 +7,7 @@ export default class MapManager {
         this.map = null
         this.tileset = null
         this.layers = {}
+        this.objects = {}
         this.currentMapId = null
     }
 
@@ -37,6 +38,8 @@ export default class MapManager {
         this.layers.objects = this.map.createLayer('Objects', this.tileset, 0, 0)
         this.layers.triggers = this.map.createLayer('Triggers', this.tileset, 0, 0)
         this.layers.above   = this.map.createLayer('Above', this.tileset, 0, 0)
+
+        this.objects.npcs = this.map.getObjectLayer('NPCs')?.objects ?? []
 
         // Collisions sur Objects
         this.layers.objects.setCollisionByExclusion([-1])
@@ -102,4 +105,5 @@ export default class MapManager {
     getWidth()  { return this.map?.widthInPixels ?? 0 }
     getHeight() { return this.map?.heightInPixels ?? 0 }
     getObjectsLayer() { return this.layers.objects }
+    getNPCs() { return this.objects.npcs }
 }

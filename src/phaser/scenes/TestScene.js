@@ -4,6 +4,8 @@ import InputManager from '../managers/InputManager';
 import MapManager from '../managers/MapManager';
 import TriggerManager from '../managers/TriggerManager';
 import PlayerManager from '../managers/PlayerManager';
+import NPCManager from '../managers/NPCManager';
+import DialogueScene from './DialogueScene';
 
 export default class TestScene extends Phaser.Scene {
 
@@ -53,6 +55,25 @@ export default class TestScene extends Phaser.Scene {
                 console.log('Événement', data.eventId)
             })
 
+        // NPCs
+        this.npcManager = new NPCManager(this, this.mapManager, this.playerManager.getSprite())
+        this.npcManager.create()
+        // Ajoute la collision joueur / NPCs
+        this.npcManager.npcs.forEach(npc => {
+            this.physics.add.collider(this.playerManager.getSprite(), npc.sprite)
+        })
+
+        // Écoute l'événement interaction
+        this.events.on('npc:interact', (data) => {
+
+            console.log('Dialogue déclenché :', data)
+            
+            this.scene.launch('DialogueScene', {
+                dialogueId: data.dialogueId,
+                npcName:    data.npcName,
+            })
+        })
+
         // Input
         this.inputManager = new InputManager(this)
 
@@ -68,6 +89,7 @@ export default class TestScene extends Phaser.Scene {
     update() {
         this.playerManager.update(this.inputManager, GameConfig.PLAYER_SPEED)
         this.triggerManager.update(this.mapManager.layers.triggers)
+        this.npcManager.update(this.inputManager)
     }
 
 }

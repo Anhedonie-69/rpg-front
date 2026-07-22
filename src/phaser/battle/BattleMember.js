@@ -3,7 +3,7 @@ export default class BattleMember {
     constructor(data, type = 'character') {
         this.type      = type  // 'character' ou 'enemy'
         this.id        = data.id ?? data.class
-        this.enemyId = data.enemyId ?? data.id  // ← id pour l'API
+        this.enemyId   = data.enemyId ?? data.id  // ← id pour l'API
         this.name      = data.name
         this.class     = data.class ?? null
         this.slot      = data.slot ?? 0
