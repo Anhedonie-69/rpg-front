@@ -124,6 +124,21 @@ export default class BattleManager {
         }
     }
 
+    async performLoot(enemies) {
+        try {
+            const res  = await authFetch('/api/battle/loot', {
+                method: 'POST',
+                body: JSON.stringify({
+                    enemies: enemies.map(e => ({ id: e.enemyId }))
+                })
+            })
+            return await res.json()
+        } catch (err) {
+            console.error('Erreur loot:', err)
+            return { xp: 0, gold: 0, items: [] }
+        }
+    }
+
     // IA ennemie simple
     getEnemyAction(enemy) {
         // Cible un personnage vivant aléatoire

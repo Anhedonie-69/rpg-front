@@ -1,5 +1,7 @@
 import Phaser from 'phaser'
+import { store } from '../../app/store'
 import BattleManager from '../battle/BattleManager'
+import { addGold, addItem, removeItem } from '../../features/game/gameSlice'
 
 export default class BattleScene extends Phaser.Scene {
     constructor() {
@@ -200,32 +202,50 @@ export default class BattleScene extends Phaser.Scene {
         // Détruit le menu précédent
         if (this.actionMenu) this.actionMenu.destroy()
 
+        // Crée le container EN PREMIER
         this.actionMenu = this.add.container(width / 2, height - 60)
 
-        const bg = this.add.rectangle(0, 0, 300, 50, 0x000033, 0.9)
-        const attackBtn = this.add.text(-80, 0, '⚔️ Attaquer', {
+        const bg = this.add.rectangle(0, 0, 400, 50, 0x000033, 0.9)
+
+        const attackBtn = this.add.text(-120, 0, '⚔️ Attaquer', {
             fontSize: '16px', fill: '#ffffff',
             backgroundColor: '#1a1a4e',
             padding: { x: 8, y: 4 }
         }).setOrigin(0.5).setInteractive({ useHandCursor: true })
 
-        const fleeBtn = this.add.text(80, 0, '🏃 Fuir', {
+        const fleeBtn = this.add.text(120, 0, '🏃 Fuir', {
             fontSize: '16px', fill: '#ffaaaa',
             backgroundColor: '#1a1a4e',
             padding: { x: 8, y: 4 }
         }).setOrigin(0.5).setInteractive({ useHandCursor: true })
 
-        // Actions
         attackBtn.on('pointerdown', () => this.playerAttack())
-        fleeBtn.on('pointerdown', () => this.endBattle('flee'))
-
-        // Hover
         attackBtn.on('pointerover', () => attackBtn.setStyle({ fill: '#ffff00' }))
         attackBtn.on('pointerout',  () => attackBtn.setStyle({ fill: '#ffffff' }))
-        fleeBtn.on('pointerover',   () => fleeBtn.setStyle({ fill: '#ff0000' }))
-        fleeBtn.on('pointerout',    () => fleeBtn.setStyle({ fill: '#ffaaaa' }))
+
+        fleeBtn.on('pointerdown', () => this.endBattle('flee'))
+        fleeBtn.on('pointerover', () => fleeBtn.setStyle({ fill: '#ff0000' }))
+        fleeBtn.on('pointerout',  () => fleeBtn.setStyle({ fill: '#ffaaaa' }))
 
         this.actionMenu.add([bg, attackBtn, fleeBtn])
+
+        // Potion APRÈS la création du container
+        const inventory = store.getState().game.inventory ?? []
+        const potions   = inventory.find(i => i.id === 'potion')
+
+        if (potions) {
+            const itemBtn = this.add.text(0, 0, `🧪 Potion (${potions.quantity})`, {
+                fontSize: '16px', fill: '#ffcc00',
+                backgroundColor: '#1a1a4e',
+                padding: { x: 8, y: 4 }
+            }).setOrigin(0.5).setInteractive({ useHandCursor: true })
+
+            itemBtn.on('pointerdown', () => this.usePotion())
+            itemBtn.on('pointerover', () => itemBtn.setStyle({ fill: '#ffffff' }))
+            itemBtn.on('pointerout',  () => itemBtn.setStyle({ fill: '#ffcc00' }))
+
+            this.actionMenu.add(itemBtn)
+        }
 
         // Affiche qui joue
         const actorText = this.add.text(width / 2, height - 100,
@@ -233,6 +253,44 @@ export default class BattleScene extends Phaser.Scene {
             fontSize: '14px', fill: '#ffff00'
         }).setOrigin(0.5)
         this.actionMenu.add(actorText)
+    }
+
+    usePotion() {
+        if (this.actionMenu) {
+            this.actionMenu.destroy()
+            this.actionMenu = null
+        }
+
+        // Soigne le personnage avec le moins de HP
+        const target = this.battleManager.getParty()
+            .filter(m => m.isAlive())
+            .sort((a, b) => (a.hpCurrent / a.hpMax) - (b.hpCurrent / b.hpMax))[0]
+
+        if (!target) { this.nextTurn(); return }
+
+        const healed = Math.min(50, target.hpMax - target.hpCurrent)
+        target.heal(50)
+
+        // Retire la potion de l'inventaire Redux
+        store.dispatch(removeItem({ id: 'potion' }))
+
+        // Affiche le soin
+        this.showHealText(this.sprites[target.id]?.rect, healed)
+        this.refreshSprite(target)
+
+        this.time.delayedCall(800, () => this.nextTurn())
+    }
+
+    showHealText(sprite, amount) {
+        if (!sprite) return
+        const txt = this.add.text(sprite.x, sprite.y - 20, `+${amount} HP`, {
+            fontSize: '18px', fill: '#00ff88', fontStyle: 'bold'
+        }).setOrigin(0.5)
+
+        this.tweens.add({
+            targets: txt, y: sprite.y - 60, alpha: 0,
+            duration: 800, onComplete: () => txt.destroy()
+        })
     }
 
     async playerAttack() {
@@ -303,23 +361,51 @@ export default class BattleScene extends Phaser.Scene {
         })
     }
 
-    endBattle(result) {
+    async endBattle(result) {
         console.log('Fin du combat :', result)
 
         if (this.actionMenu) this.actionMenu.destroy()
 
         // Affiche le résultat
         const { width, height } = this.scale
-        const color  = result === 'victory' ? '#ffff00' : '#ff4444'
-        const label  = result === 'victory' ? 'Victoire !' 
-                     : result === 'defeat'  ? 'Défaite...' 
-                     : 'Fuite !'
+        
+        if (result === 'victory') {
+            // Calcule le loot
+            const loot = await this.battleManager.performLoot(
+                this.battleManager.getEnemies()
+            )
 
-        this.add.text(width / 2, height / 2, label, {
-            fontSize: '40px',
-            fill: color,
-            fontStyle: 'bold'
-        }).setOrigin(0.5)
+            // Dispatch vers Redux
+            store.dispatch(addGold(loot.gold))
+            loot.items.forEach(item => store.dispatch(addItem(item)))
+
+            // Affiche le résultat
+            this.add.text(width / 2, height / 2 - 60, '✨ Victoire !', {
+                fontSize: '40px', fill: '#ffff00', fontStyle: 'bold'
+            }).setOrigin(0.5)
+
+            this.add.text(width / 2, height / 2, `+${loot.xp} XP  |  +${loot.gold} Or`, {
+                fontSize: '18px', fill: '#aaffaa'
+            }).setOrigin(0.5)
+
+            if (loot.items.length > 0) {
+                const itemNames = loot.items.map(i => `${i.name} x${i.quantity}`).join(', ')
+                this.add.text(width / 2, height / 2 + 40, `Objets : ${itemNames}`, {
+                    fontSize: '15px', fill: '#ffcc00'
+                }).setOrigin(0.5)
+            } else {
+                this.add.text(width / 2, height / 2 + 40, 'Aucun objet trouvé.', {
+                    fontSize: '14px', fill: '#777777'
+                }).setOrigin(0.5)
+            }
+
+        } else {
+            const color = result === 'defeat' ? '#ff4444' : '#aaaaaa'
+            const label = result === 'defeat' ? 'Défaite...' : 'Fuite !'
+            this.add.text(width / 2, height / 2, label, {
+                fontSize: '40px', fill: color, fontStyle: 'bold'
+            }).setOrigin(0.5)
+        }
 
         // Retour après 2 secondes
         this.time.delayedCall(2000, () => {
