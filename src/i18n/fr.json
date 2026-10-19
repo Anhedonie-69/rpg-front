@@ -81,5 +81,7 @@
     "keyMap": "Carte",
     "keyCancel": "Annuler",
     "save": "Sauvegarder"
-  }  
+  },
+
+  "battle": {}
 }

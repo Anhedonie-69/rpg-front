@@ -81,5 +81,7 @@
     "keyMap": "Map",
     "keyCancel": "Cancel",
     "save": "Save"
-  }  
+  },
+
+  "battle": {}
 }

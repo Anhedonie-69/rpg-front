@@ -29,12 +29,12 @@ export default class DialogueScene extends Phaser.Scene {
         this.container = this.add.container(0, 0).setDepth(20)
 
         // Fond dialogue
-        const bg = this.add.rectangle(
+        this.bg = this.add.rectangle(
             width / 2, height - 160,
             width - 40, 200,
             0x000022, 0.92
         ).setStrokeStyle(1, 0x4444aa)
-        this.container.add(bg)
+        this.container.add(this.bg)
 
         // Nom du speaker
         this.speakerText = this.add.text(
@@ -67,59 +67,47 @@ export default class DialogueScene extends Phaser.Scene {
 
     showNode(nodeId) {
         const node = this.dialogue.nodes[nodeId]
-        if (!node) {
-            this.closeDialogue()
-            return
-        }
+        if (!node) { this.closeDialogue(); return }
 
         this.currentNode = nodeId
         this.mainText.setText(node.text)
-
-        // Nettoie les choix précédents
         this.choicesContainer.removeAll(true)
 
         const { width, height } = this.scale
+        const choiceCount = node.choices.length
 
-        if (node.choices.length === 0) {
-            // Pas de choix → juste [E] pour fermer
+        // Hauteur dynamique selon nombre de choix
+        const boxHeight = 120 + Math.max(choiceCount, 1) * 35
+        
+        // Repositionne le fond
+        this.bg.setSize(width - 40, boxHeight)
+        this.bg.setPosition(width / 2, height - boxHeight / 2 - 20)
+
+        // Repositionne le texte principal
+        this.mainText.setPosition(60, height - boxHeight - 10)
+        this.speakerText.setPosition(60, height - boxHeight - 30)
+
+        if (choiceCount === 0) {
             const closeText = this.add.text(
-                width - 80, height - 70,
+                width - 80, height - 40,
                 '[E] Fermer',
                 { fontSize: '13px', fill: '#aaaaaa' }
             ).setOrigin(1, 0.5)
             this.choicesContainer.add(closeText)
-
             this.input.keyboard.once('keydown-E', () => this.closeDialogue())
             return
         }
 
-        // Affiche les choix
         node.choices.forEach((choice, i) => {
-            const y = height - 130 + i * 30
+            const y = height - boxHeight + 30 + i * 35
+            const choiceText = this.add.text(70, y, `› ${choice.text}`, {
+                fontSize: '14px', fill: '#ccccff', padding: { x: 4, y: 2 }
+            }).setInteractive({ useHandCursor: true })
 
-            const choiceText = this.add.text(
-                70, y,
-                `› ${choice.text}`,
-                { fontSize: '14px', fill: '#ccccff',
-                  backgroundColor: '#00000000',
-                  padding: { x: 4, y: 2 } }
-            ).setInteractive({ useHandCursor: true })
-
-            // Hover
-            choiceText.on('pointerover', () => {
-                choiceText.setStyle({ fill: '#ffff00' })
-            })
-            choiceText.on('pointerout', () => {
-                choiceText.setStyle({ fill: '#ccccff' })
-            })
-
-            // Clic
+            choiceText.on('pointerover', () => choiceText.setStyle({ fill: '#ffff00' }))
+            choiceText.on('pointerout',  () => choiceText.setStyle({ fill: '#ccccff' }))
             choiceText.on('pointerdown', () => {
-                if (choice.next === 'end') {
-                    this.closeDialogue()
-                } else {
-                    this.showNode(choice.next)
-                }
+                choice.next === 'end' ? this.closeDialogue() : this.showNode(choice.next)
             })
 
             this.choicesContainer.add(choiceText)
@@ -128,6 +116,13 @@ export default class DialogueScene extends Phaser.Scene {
 
     closeDialogue() {
         this.children.removeAll(true)
+
+        // Débloque le joueur dans la scène d'origine
+        const originScene = this.scene.get(this.originScene ?? 'TestScene')
+        if (originScene?.playerManager) {
+            originScene.playerManager.setActive(true)
+        }
+        
         this.scene.stop('DialogueScene')
         // Pas de resume → TestScene continue de tourner !
     }

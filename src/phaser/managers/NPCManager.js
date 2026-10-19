@@ -85,7 +85,7 @@ export default class NPCManager {
 
     interact(npc) {
         if (!npc.dialogueId) return
-        console.log('Interaction avec', npc.name, '→', npc.dialogueId)
+        //console.log('Interaction avec', npc.name, '→', npc.dialogueId)
 
         // Émet l'événement dialogue vers la scène
         this.scene.events.emit('npc:interact', {

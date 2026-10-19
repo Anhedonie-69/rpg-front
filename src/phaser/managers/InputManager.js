@@ -56,7 +56,4 @@ export default class InputManager {
     isEnterPressed()   { return Phaser.Input.Keyboard.JustDown(this.keys.enter) }
     isPausePressed()   { return Phaser.Input.Keyboard.JustDown(this.keys.pause) }
 
-    resetFlags() {
-        this._interactJustDown = false
-    }
 }

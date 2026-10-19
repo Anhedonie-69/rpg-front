@@ -66,8 +66,9 @@ export default class TestScene extends Phaser.Scene {
         // Écoute l'événement interaction
         this.events.on('npc:interact', (data) => {
 
-            console.log('Dialogue déclenché :', data)
-            
+            // Bloque le joueur
+            this.playerManager.setActive(false)
+
             this.scene.launch('DialogueScene', {
                 dialogueId: data.dialogueId,
                 npcName:    data.npcName,

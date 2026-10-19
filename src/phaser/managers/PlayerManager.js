@@ -58,6 +58,13 @@ export default class PlayerManager {
     }
 
     update(inputManager, speed) {
+
+        // Si inactif → ne bouge pas
+        if (!this.player.active) {
+            this.player.setVelocity(0)
+            return { vx: 0, vy: 0 }
+        }
+
         const vx = inputManager.isLeftPressed()  ? -speed
                  : inputManager.isRightPressed() ?  speed
                  : 0
