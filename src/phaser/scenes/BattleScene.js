@@ -362,7 +362,7 @@ export default class BattleScene extends Phaser.Scene {
     }
 
     async endBattle(result) {
-        console.log('Fin du combat :', result)
+        // console.log('Fin du combat :', result)
 
         if (this.actionMenu) this.actionMenu.destroy()
 

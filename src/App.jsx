@@ -20,8 +20,19 @@ export default function App() {
 
     // Token présent → on vérifie qu'il est encore valide
     fetchMe(token)
-      .then(user => {
+      .then(async (user) => {
         dispatch(setUser({ token, user }))
+
+        const gameState = store.getState().game
+        if (gameState.activeSlot) {
+            const savesRes = await authFetch('/api/saves')
+            const saves    = await savesRes.json()
+            const active   = saves.find(s => s.slot === gameState.activeSlot && !s.empty)
+            if (active) {
+                dispatch(setInventory(active.inventory ?? []))
+            }
+        }
+
         applyUserLanguage(user)
       })
       .catch(() => {

@@ -202,10 +202,13 @@ export default class MenuScene extends Phaser.Scene {
                     chapter:  gameState.chapter  ?? 0,
                     flags:    gameState.flags    ?? {},
                     partyIds: gameState.partyIds ?? [],
+                    inventory: gameState.inventory ?? [],
                 })
             })
 
             if (res.ok) {
+                // Feedback visuel
+                this.showSaveConfirmation(slot)
                 // Rafraîchit l'onglet
                 this.contentContainer.removeAll(true)
                 this.showSave()
@@ -213,6 +216,19 @@ export default class MenuScene extends Phaser.Scene {
         } catch (err) {
             console.error('Erreur sauvegarde:', err)
         }
+    }
+
+    showSaveConfirmation(slot) {
+        const { width, height } = this.scale
+        const txt = this.add.text(width / 2, height / 2 - 160,
+            `✅ Slot ${slot} sauvegardé !`, {
+            fontSize: '14px', fill: '#aaffaa',
+            backgroundColor: '#0a2e0a',
+            padding: { x: 8, y: 4 }
+        }).setOrigin(0.5).setDepth(30)
+    
+        // Disparaît après 2 secondes
+        this.time.delayedCall(2000, () => txt.destroy())
     }
 
     formatTime(seconds) {
