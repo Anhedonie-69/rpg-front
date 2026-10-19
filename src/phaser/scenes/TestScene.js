@@ -91,6 +91,12 @@ export default class TestScene extends Phaser.Scene {
         this.playerManager.update(this.inputManager, GameConfig.PLAYER_SPEED)
         this.triggerManager.update(this.mapManager.layers.triggers)
         this.npcManager.update(this.inputManager)
+
+        // Ouvre le menu
+        if (this.inputManager.isMenuJustPressed()) {
+            this.playerManager.setActive(false)
+            this.scene.launch('MenuScene', { originScene: 'TestScene' })
+        }
     }
 
 }

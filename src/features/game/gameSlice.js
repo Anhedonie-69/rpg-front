@@ -13,6 +13,7 @@ const gameSlice = createSlice({
     chapter: 1,
     flags: {},             // { boss1_killed: true, npc3_talked: true }
     partyIds: [],          // ids des personnages actifs
+    inventory: [],
 
     // État du jeu
     isPlaying: false,      // partie en cours ?
@@ -59,6 +60,23 @@ const gameSlice = createSlice({
     removeGold: (state, action) => {
       state.gold = Math.max(0, state.gold - action.payload)
     },
+    addItem: (state, action) => {
+      const existing = state.inventory.find(i => i.id === action.payload.id)
+      if (existing) {
+          existing.quantity += action.payload.quantity ?? 1
+      } else {
+          state.inventory.push({ ...action.payload, quantity: action.payload.quantity ?? 1 })
+      }
+    },
+    removeItem: (state, action) => {
+        const item = state.inventory.find(i => i.id === action.payload.id)
+        if (item) {
+            item.quantity -= 1
+            if (item.quantity <= 0) {
+                state.inventory = state.inventory.filter(i => i.id !== action.payload.id)
+            }
+        }
+    },
     setFlag: (state, action) => {
       state.flags[action.payload.key] = action.payload.value
     },
@@ -94,7 +112,9 @@ export const {
   setFlag,
   setParty,
   setPaused,
-  resetGame
+  resetGame,
+  addItem,
+  removeItem
 } = gameSlice.actions
 
 export default gameSlice.reducer

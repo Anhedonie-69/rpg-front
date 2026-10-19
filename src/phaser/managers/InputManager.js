@@ -33,6 +33,7 @@ export default class InputManager {
 
             interact: Phaser.Input.Keyboard.KeyCodes.E,
             inventory: Phaser.Input.Keyboard.KeyCodes.I,
+            menu: Phaser.Input.Keyboard.KeyCodes.P,
             map: Phaser.Input.Keyboard.KeyCodes.M,
             attack: Phaser.Input.Keyboard.KeyCodes.SPACE,
             escape:    Phaser.Input.Keyboard.KeyCodes.ESC,
@@ -49,6 +50,7 @@ export default class InputManager {
     
     isInteractJustPressed() { return Phaser.Input.Keyboard.JustDown(this.keys.interact) }
     isInventoryJustPressed() { return Phaser.Input.Keyboard.JustDown(this.keys.inventory)}
+    isMenuJustPressed() { return Phaser.Input.Keyboard.JustDown(this.keys.menu)}
     isMapJustPressed() { return Phaser.Input.Keyboard.JustDown(this.keys.map)}
     isAttackJustPressed() { return Phaser.Input.Keyboard.JustDown(this.keys.attack)}
 

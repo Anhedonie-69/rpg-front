@@ -7,6 +7,7 @@ import WorldScene from './scenes/WorldScene'
 import BattleScene from './scenes/BattleScene'
 import DialogueScene from './scenes/DialogueScene'
 import InventoryScene from './scenes/InventoryScene'
+import MenuScene from './scenes/MenuScene'
 import TestScene from './scenes/TestScene'
 
 const config = {
@@ -48,8 +49,8 @@ export const createGame = (testMode = false, gameState = null) => {
     const gameConfig = {
         ...config,
         scene: testMode
-            ? [TestScene, BattleScene, DialogueScene]
-            : [BootScene, PreloadScene, WorldScene, BattleScene, InventoryScene, DialogueScene]
+            ? [TestScene, BattleScene, DialogueScene, MenuScene]
+            : [BootScene, PreloadScene, WorldScene, BattleScene, InventoryScene, DialogueScene, MenuScene]
     }
     const game = new Phaser.Game(gameConfig)
 
