@@ -1,9 +1,11 @@
 import Phaser from 'phaser'
+import { store } from '../../app/store';
 import GameConfig from '../config/GameConfig';
 import InputManager from '../managers/InputManager';
 import MapManager from '../managers/MapManager';
 import TriggerManager from '../managers/TriggerManager';
 import PlayerManager from '../managers/PlayerManager';
+import { updatePosition } from '../../features/game/gameSlice';
 import NPCManager from '../managers/NPCManager';
 import DialogueScene from './DialogueScene';
 
@@ -80,6 +82,17 @@ export default class TestScene extends Phaser.Scene {
 
         //this.cursors = this.input.keyboard.createCursorKeys()
         this.scale.on('resize', this.resize, this)
+
+        this.time.addEvent({
+            delay: 5000,
+            loop: true,
+            callback: () => {
+                store.dispatch(updatePosition({
+                    x: Math.round(this.playerManager.getX()),
+                    y: Math.round(this.playerManager.getY()),
+                }))
+            }
+        })
     }
 
     resize(gameSize) {

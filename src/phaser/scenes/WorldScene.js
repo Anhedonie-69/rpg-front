@@ -13,6 +13,7 @@ export default class WorldScene extends Phaser.Scene {
     }
 
     init(data) {
+        const gameState = store.getState().game
         this.mapId  = data?.mapId ?? 'zone_test'
         this.spawnX = data?.posX  ?? 200
         this.spawnY = data?.posY  ?? 200

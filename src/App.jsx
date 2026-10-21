@@ -1,8 +1,9 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setUser, logout, setLoading } from './features/auth/authSlice'
+import { setHasSave } from './features/game/gameSlice'
 import { setOptions } from './features/user/userSlice'
-import { fetchMe } from './services/auth.service'
+import { fetchMe, authFetch } from './services/auth.service'
 import AppRouter from './routes/AppRouter'
 import { applyUserLanguage } from './utils/language'
 
@@ -18,27 +19,25 @@ export default function App() {
       return
     }
 
-    // Token présent → on vérifie qu'il est encore valide
     fetchMe(token)
       .then(async (user) => {
         dispatch(setUser({ token, user }))
+        applyUserLanguage(user)
 
-        const gameState = store.getState().game
-        if (gameState.activeSlot) {
+        // Vérifie s'il existe des saves en BDD
+        try {
             const savesRes = await authFetch('/api/saves')
             const saves    = await savesRes.json()
-            const active   = saves.find(s => s.slot === gameState.activeSlot && !s.empty)
-            if (active) {
-                dispatch(setInventory(active.inventory ?? []))
-            }
-        }
+            const hasSave  = saves.some(s => !s.empty)
 
-        applyUserLanguage(user)
+            if (hasSave) {
+                dispatch(setHasSave(true))
+            }
+        } catch (err) {
+            console.error('Erreur chargement saves:', err)
+        }
       })
-      .catch(() => {
-        // Token expiré ou invalide → on nettoie
-        dispatch(logout())
-      })
+      .catch(() => dispatch(logout()))
   }, [dispatch])
 
   // Bloque le rendu le temps de vérifier le token

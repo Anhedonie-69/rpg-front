@@ -18,6 +18,7 @@ export default class BootScene extends Phaser.Scene {
     }
 
     create() {
+        const gameState = store.getState().game
         this.scene.start('WorldScene', {
             mapId: this.gameState?.mapId ?? MapConfig.defaultMap,
             posX:  this.gameState?.posX  ?? MapConfig.defaultX,

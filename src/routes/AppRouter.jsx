@@ -8,6 +8,7 @@ import Login from '../pages/Login'
 import Options from '../pages/Options'
 import Profile from '../pages/Profile'
 import Register from '../pages/Register'
+import SaveSelect from '../pages/SaveSelect'
 
 import AdminRoute from './AdminRoute'
 import GuestRoute from './GuestRoute'
@@ -63,6 +64,11 @@ export default function AppRouter() {
         <ProtectedRoute>
           <Game />
         </ProtectedRoute>
+      } />
+      <Route path="/saves" element={
+          <ProtectedRoute>
+              <SaveSelect />
+          </ProtectedRoute>
       } />
       <Route path="/game" element={
         <ProtectedRoute>

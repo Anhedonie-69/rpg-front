@@ -17,6 +17,7 @@ const gameSlice = createSlice({
     inventory: [],
 
     // État du jeu
+    hasSave: false,
     isPlaying: false,      // partie en cours ?
     isPaused: false,
     loading: false,
@@ -104,6 +105,9 @@ const gameSlice = createSlice({
       state.partyIds   = []
       state.isPlaying  = false
       state.isPaused   = false
+    },
+    setHasSave: (state, action) => {
+        state.hasSave = action.payload
     }
   },
 })
@@ -121,7 +125,8 @@ export const {
   setPaused,
   resetGame,
   addItem,
-  removeItem
+  removeItem,
+  setHasSave
 } = gameSlice.actions
 
 export default gameSlice.reducer
