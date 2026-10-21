@@ -4,6 +4,8 @@ import { useNavigate, Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { applyUserLanguage } from '../utils/language'
 import { login, fetchMe } from '../services/auth.service'
+import { setHasSave } from '../features/game/gameSlice'
+import { authFetch } from '../services/auth.service'
 import { setUser } from '../features/auth/authSlice'
 import Layout from '../components/layout/Layout'
 
@@ -22,9 +24,13 @@ export default function Login() {
     try {
       const data = await login(form.email, form.password)
       const user = await fetchMe(data.token)
+      const savesRes = await authFetch('/api/saves')
+      const saves    = await savesRes.json()
 
       dispatch(setUser({ token: data.token, user }))
       applyUserLanguage(user)
+      dispatch(setHasSave(saves.some(s => !s.empty)))
+
       navigate('/')
     } catch (err) {
       console.log('ERREUR COMPLETE:', err)
@@ -64,6 +70,7 @@ export default function Login() {
           <Link className="text-sm text-gray-300">
             {t('auth.forgottenPass')}
           </Link>
+          
           <Link to="/register" className="text-sm text-gray-300">
             {t('auth.register')}
           </Link>

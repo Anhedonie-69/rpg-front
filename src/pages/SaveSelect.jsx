@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import Layout from '../components/layout/Layout'
 import { authFetch } from '../services/auth.service'
-import { loadSave, newGame } from '../features/game/gameSlice'
+import { loadSave, setHasSave } from '../features/game/gameSlice'
 
 export default function SaveSelect() {
     const { t }        = useTranslation()
@@ -28,6 +28,24 @@ export default function SaveSelect() {
         navigate('/game')
     }
 
+    const handleDelete = async (slot) => {
+        if (!window.confirm(`Effacer la sauvegarde du slot ${slot} ?`)) return
+
+        try {
+            const res = await authFetch(`/api/saves/${slot}`, { method: 'DELETE' })
+            if (res.ok) {
+                // Recharge les saves
+                const savesRes = await authFetch('/api/saves')
+                const data     = await savesRes.json()
+                setSaves(data)
+
+                // Met à jour hasSave dans Redux
+                dispatch(setHasSave(data.some(s => !s.empty)))
+            }
+        } catch (err) {
+            console.error('Erreur suppression:', err)
+        }
+    }
 
     const formatTime = (seconds) => {
         const h = Math.floor(seconds / 3600)
@@ -82,12 +100,20 @@ export default function SaveSelect() {
                                 </div>
 
                                 {!save.empty && (
-                                    <button
-                                        onClick={() => handleLoad(save)}
-                                        className="px-4 py-2 bg-blue-600 rounded text-sm"
-                                    >
-                                        Charger
-                                    </button>
+                                    <div className="flex gap-2">
+                                        <button
+                                            onClick={() => handleLoad(save)}
+                                            className="px-4 py-2 bg-blue-600 rounded text-sm"
+                                        >
+                                            Charger
+                                        </button>
+                                        <button
+                                            onClick={() => handleDelete(save.slot)}
+                                            className="px-4 py-2 bg-red-700 rounded text-sm"
+                                        >
+                                            Effacer
+                                        </button>
+                                    </div>
                                 )}
                             </div>
                         </div>

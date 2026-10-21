@@ -27,7 +27,13 @@ export default class TestScene extends Phaser.Scene {
     create() {
 
         // Joueur
-        this.playerManager.create(200, 200)
+        // Récupère la position depuis Redux
+        const gameState = store.getState().game
+        const spawnX    = gameState.posX > 0 ? gameState.posX : 200
+        const spawnY    = gameState.posY > 0 ? gameState.posY : 200
+        
+        // Joueur — utilise la position sauvegardée
+        this.playerManager.create(spawnX, spawnY)
         
         // Map
         this.mapManager = new MapManager(this)
