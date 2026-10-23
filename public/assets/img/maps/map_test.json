@@ -53,7 +53,7 @@
                         {
                          "name":"name",
                          "type":"string",
-                         "value":"npc_vieux_sage"
+                         "value":"Sage"
                         }, 
                         {
                          "name":"range",

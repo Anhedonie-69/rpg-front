@@ -42,7 +42,7 @@ export default class NPCManager {
             // Nom au dessus
             npc.label = this.scene.add.text(
                 npc.x, npc.y - 28,
-                npc.name.replace('npc_', '').replace(/_/g, ' '),
+                npc.name,
                 { fontSize: '11px', fill: '#ffffff', backgroundColor: '#00000088', padding: { x: 4, y: 2 } }
             ).setOrigin(0.5).setDepth(6)
 
