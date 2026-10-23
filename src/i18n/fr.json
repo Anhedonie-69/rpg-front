@@ -83,5 +83,48 @@
     "save": "Sauvegarder"
   },
 
-  "battle": {}
+  "game": {
+    "loading": "Chargement...",
+    "menu": {
+        "title": "MENU",
+        "gold": "Or",
+        "tabs": {
+            "items": "Objets",
+            "save": "Sauvegarde"
+        },
+        "inventory": {
+            "empty": "Inventaire vide."
+        },
+        "save": {
+            "slot": "Slot",
+            "empty": "Vide",
+            "time": "Temps",
+            "gold": "Or",
+            "savedAt": "Sauvegardé le",
+            "saveBtn": "Sauvegarder",
+            "confirmed": "sauvegardé !"
+        },
+        "close": "Fermer"
+    },
+    "battle": {
+        "loading": "Chargement...",
+        "order": "Ordre :",
+        "turn": "Tour de :",
+        "attack": "Attaquer",
+        "flee": "Fuir",
+        "potion": "Potion",
+        "victory": "Victoire !",
+        "defeat": "Défaite...",
+        "fleeResult": "Fuite !",
+        "xpGold": "+{{xp}} XP  |  +{{gold}} Or",
+        "items": "Objets :",
+        "noItems": "Aucun objet trouvé."
+    },
+    "dialogue": {
+        "close": "[E] Fermer"
+    },
+    "npc": {
+        "interact": "[E] Parler"
+    }
+  }
 }

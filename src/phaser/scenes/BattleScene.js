@@ -1,6 +1,7 @@
 import Phaser from 'phaser'
 import { store } from '../../app/store'
 import BattleManager from '../battle/BattleManager'
+import i18next from 'i18next'
 import { addGold, addItem, removeItem } from '../../features/game/gameSlice'
 
 export default class BattleScene extends Phaser.Scene {
@@ -25,7 +26,7 @@ export default class BattleScene extends Phaser.Scene {
         this.add.rectangle(width / 2, height / 2, width, height, 0x1a1a2e)
 
         // Message de chargement
-        const loadText = this.add.text(width / 2, height / 2, 'Chargement...', {
+        const loadText = this.add.text(width / 2, height / 2, i18next.t('game.loading'), {
             fontSize: '20px',
             fill: '#ffffff'
         }).setOrigin(0.5)
@@ -112,7 +113,7 @@ export default class BattleScene extends Phaser.Scene {
 
         this.ctbContainer = this.add.container(width / 2, 30)
 
-        const title = this.add.text(-200, 0, 'Ordre :', {
+        const title = this.add.text(-200, 0, i18next.t('game.battle.order'), {
             fontSize: '12px', fill: '#888888'
         })
         this.ctbContainer.add(title)
@@ -207,13 +208,13 @@ export default class BattleScene extends Phaser.Scene {
 
         const bg = this.add.rectangle(0, 0, 400, 50, 0x000033, 0.9)
 
-        const attackBtn = this.add.text(-120, 0, '⚔️ Attaquer', {
+        const attackBtn = this.add.text(-120, 0, `⚔️ ${i18next.t('game.battle.attack')}`, {
             fontSize: '16px', fill: '#ffffff',
             backgroundColor: '#1a1a4e',
             padding: { x: 8, y: 4 }
         }).setOrigin(0.5).setInteractive({ useHandCursor: true })
 
-        const fleeBtn = this.add.text(120, 0, '🏃 Fuir', {
+        const fleeBtn = this.add.text(120, 0, `🏃 ${i18next.t('game.battle.flee')}`, {
             fontSize: '16px', fill: '#ffaaaa',
             backgroundColor: '#1a1a4e',
             padding: { x: 8, y: 4 }
@@ -234,7 +235,7 @@ export default class BattleScene extends Phaser.Scene {
         const potions   = inventory.find(i => i.id === 'potion')
 
         if (potions) {
-            const itemBtn = this.add.text(0, 0, `🧪 Potion (${potions.quantity})`, {
+            const itemBtn = this.add.text(0, 0, `🧪 ${i18next.t('game.battle.potion')} (${potions.quantity})`, {
                 fontSize: '16px', fill: '#ffcc00',
                 backgroundColor: '#1a1a4e',
                 padding: { x: 8, y: 4 }
@@ -249,7 +250,7 @@ export default class BattleScene extends Phaser.Scene {
 
         // Affiche qui joue
         const actorText = this.add.text(width / 2, height - 100,
-            `Tour de : ${this.currentActor.name}`, {
+            `${i18next.t('game.battle.turn')} ${this.currentActor.name}`, {
             fontSize: '14px', fill: '#ffff00'
         }).setOrigin(0.5)
         this.actionMenu.add(actorText)
@@ -380,28 +381,28 @@ export default class BattleScene extends Phaser.Scene {
             loot.items.forEach(item => store.dispatch(addItem(item)))
 
             // Affiche le résultat
-            this.add.text(width / 2, height / 2 - 60, '✨ Victoire !', {
+            this.add.text(width / 2, height / 2 - 60, `✨ ${i18next.t('game.battle.victory')}`, {
                 fontSize: '40px', fill: '#ffff00', fontStyle: 'bold'
             }).setOrigin(0.5)
 
-            this.add.text(width / 2, height / 2, `+${loot.xp} XP  |  +${loot.gold} Or`, {
+            this.add.text(width / 2, height / 2, `+${loot.xp} XP  |  +${loot.gold} ${i18next.t('game.menu.gold')}`, {
                 fontSize: '18px', fill: '#aaffaa'
             }).setOrigin(0.5)
 
             if (loot.items.length > 0) {
                 const itemNames = loot.items.map(i => `${i.name} x${i.quantity}`).join(', ')
-                this.add.text(width / 2, height / 2 + 40, `Objets : ${itemNames}`, {
+                this.add.text(width / 2, height / 2 + 40, `${i18next.t('game.battle.items')} ${itemNames}`, {
                     fontSize: '15px', fill: '#ffcc00'
                 }).setOrigin(0.5)
             } else {
-                this.add.text(width / 2, height / 2 + 40, 'Aucun objet trouvé.', {
+                this.add.text(width / 2, height / 2 + 40, i18next.t('game.battle.noItems'), {
                     fontSize: '14px', fill: '#777777'
                 }).setOrigin(0.5)
             }
 
         } else {
             const color = result === 'defeat' ? '#ff4444' : '#aaaaaa'
-            const label = result === 'defeat' ? 'Défaite...' : 'Fuite !'
+            const label = result === 'defeat' ? i18next.t('game.battle.defeat') : i18next.t('game.battle.fleeResult')
             this.add.text(width / 2, height / 2, label, {
                 fontSize: '40px', fill: color, fontStyle: 'bold'
             }).setOrigin(0.5)

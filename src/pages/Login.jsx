@@ -23,6 +23,10 @@ export default function Login() {
     setError(null)
     try {
       const data = await login(form.email, form.password)
+
+      // ← Stocke le token EN PREMIER
+        localStorage.setItem('token', data.token)
+        
       const user = await fetchMe(data.token)
       const savesRes = await authFetch('/api/saves')
       const saves    = await savesRes.json()
@@ -30,6 +34,8 @@ export default function Login() {
       dispatch(setUser({ token: data.token, user }))
       applyUserLanguage(user)
       dispatch(setHasSave(saves.some(s => !s.empty)))
+
+      console.log('setHasSave dispatché:', saves.some(s => !s.empty))
 
       navigate('/')
     } catch (err) {
@@ -67,9 +73,9 @@ export default function Login() {
             {t('auth.login')}
           </button>
 
-          <Link className="text-sm text-gray-300">
+          {/*<Link className="text-sm text-gray-300">
             {t('auth.forgottenPass')}
-          </Link>
+          </Link>*/}
           
           <Link to="/register" className="text-sm text-gray-300">
             {t('auth.register')}

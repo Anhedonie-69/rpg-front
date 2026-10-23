@@ -83,5 +83,48 @@
     "save": "Save"
   },
 
-  "battle": {}
+  "game": {
+    "loading": "Loading...",
+    "menu": {
+        "title": "MENU",
+        "gold": "Gold",
+        "tabs": {
+            "items": "Items",
+            "save": "Save"
+        },
+        "inventory": {
+            "empty": "Inventory empty."
+        },
+        "save": {
+            "slot": "Slot",
+            "empty": "Empty",
+            "time": "Time",
+            "gold": "Gold",
+            "savedAt": "Saved on",
+            "saveBtn": "Save",
+            "confirmed": "saved!"
+        },
+        "close": "Close"
+    },
+    "battle": {
+        "loading": "Loading...",
+        "order": "Order:",
+        "turn": "Turn:",
+        "attack": "Attack",
+        "flee": "Flee",
+        "potion": "Potion",
+        "victory": "Victory!",
+        "defeat": "Defeat...",
+        "fleeResult": "Fled!",
+        "xpGold": "+{{xp}} XP  |  +{{gold}} Gold",
+        "items": "Items:",
+        "noItems": "No items found."
+    },
+    "dialogue": {
+        "close": "[E] Close"
+    },
+    "npc": {
+        "interact": "[E] Talk"
+    }
+  }
 }

@@ -1,4 +1,5 @@
 import Phaser from 'phaser'
+import i18next from 'i18next'
 import { fetchDialogue } from '../../services/dialogue.service'
 
 export default class DialogueScene extends Phaser.Scene {
@@ -90,7 +91,7 @@ export default class DialogueScene extends Phaser.Scene {
         if (choiceCount === 0) {
             const closeText = this.add.text(
                 width - 80, height - 40,
-                '[E] Fermer',
+                i18next.t('game.dialogue.close'),
                 { fontSize: '13px', fill: '#aaaaaa' }
             ).setOrigin(1, 0.5)
             this.choicesContainer.add(closeText)

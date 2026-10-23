@@ -1,4 +1,5 @@
 import Phaser from 'phaser'
+import i18next from 'i18next'
 
 export default class NPCManager {
     constructor(scene, mapManager, player) {
@@ -48,7 +49,7 @@ export default class NPCManager {
             // Indicateur [E] caché par défaut
             npc.indicator = this.scene.add.text(
                 npc.x, npc.y - 48,
-                '[E] Parler',
+                i18next.t('game.npc.interact'),
                 { fontSize: '12px', fill: '#ffff00', backgroundColor: '#00000099', padding: { x: 4, y: 2 } }
             ).setOrigin(0.5).setDepth(6).setVisible(false)
 

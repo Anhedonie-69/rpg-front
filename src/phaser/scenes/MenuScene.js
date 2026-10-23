@@ -1,6 +1,7 @@
 import Phaser from 'phaser'
 import { authFetch } from '../../services/auth.service'
 import { store } from '../../app/store'
+import i18next from 'i18next'
 
 export default class MenuScene extends Phaser.Scene {
     constructor() {
@@ -23,9 +24,15 @@ export default class MenuScene extends Phaser.Scene {
             .setStrokeStyle(2, 0x4444aa)
 
         // Titre
-        this.add.text(width / 2, height / 2 - 170, 'MENU', {
+        this.add.text(width / 2, height / 2 - 170, i18next.t('game.menu.title'), {
             fontSize: '20px', fill: '#ffcc00', fontStyle: 'bold'
         }).setOrigin(0.5)
+
+        // Or — affiché en permanence
+        const gold = store.getState().game.gold ?? 0
+        this.add.text(width / 2 + 180, height / 2 - 170, `💰 ${gold} ${i18next.t('game.menu.gold')}`, {
+            fontSize: '14px', fill: '#ffcc00'
+        }).setOrigin(1, 0.5)
 
         // Onglets
         this.createTabs()
@@ -44,8 +51,8 @@ export default class MenuScene extends Phaser.Scene {
         const tabY = height / 2 - 135
 
         const tabs = [
-            { key: 'items', label: '🎒 Objets',      x: width / 2 - 80 },
-            { key: 'save',  label: '💾 Sauvegarde',  x: width / 2 + 80 },
+            { key: 'items', label: `🎒 ${i18next.t('game.menu.tabs.items')}`,      x: width / 2 - 80 },
+            { key: 'save',  label: `💾 ${i18next.t('game.menu.tabs.save')}`,  x: width / 2 + 80 },
         ]
 
         this.tabButtons = {}
@@ -100,7 +107,7 @@ export default class MenuScene extends Phaser.Scene {
         const inventory = store.getState().game.inventory ?? []
 
         if (inventory.length === 0) {
-            const txt = this.add.text(width / 2, height / 2, 'Inventaire vide.', {
+            const txt = this.add.text(width / 2, height / 2, i18next.t('game.menu.inventory.empty'), {
                 fontSize: '14px', fill: '#888888'
             }).setOrigin(0.5)
             this.contentContainer.add(txt)
@@ -158,22 +165,22 @@ export default class MenuScene extends Phaser.Scene {
                 this.contentContainer.add(emptyTxt)
             } else {
                 const infoTxt = this.add.text(width / 2 - 190, y, 
-                    `Slot ${save.slot} — ${save.mapId}`, {
+                    `${i18next.t('game.menu.save.slot')} ${save.slot} — ${save.mapId}`, {
                     fontSize: '13px', fill: '#ffcc00', fontStyle: 'bold'
                 })
                 const timeTxt = this.add.text(width / 2 - 190, y + 18,
-                    `Temps : ${this.formatTime(save.playTime)}  |  Or : ${save.gold}`, {
+                    `${i18next.t('game.menu.save.time')} : ${this.formatTime(save.playTime)}  |  ${i18next.t('game.menu.save.gold')} : ${save.gold}`, {
                     fontSize: '12px', fill: '#aaaaaa'
                 })
                 const dateTxt = this.add.text(width / 2 - 190, y + 34,
-                    `Sauvegardé le : ${new Date(save.updatedAt).toLocaleString('fr-FR')}`, {
+                    `${i18next.t('game.menu.save.savedAt')} : ${new Date(save.updatedAt).toLocaleString()}`, {
                     fontSize: '11px', fill: '#777777'
                 })
                 this.contentContainer.add([infoTxt, timeTxt, dateTxt])
             }
 
             // Bouton Sauvegarder
-            const saveBtn = this.add.text(width / 2 + 150, y + 20, '💾 Sauvegarder', {
+            const saveBtn = this.add.text(width / 2 + 150, y + 20, `💾 ${i18next.t('game.menu.save.saveBtn')}`, {
                 fontSize: '12px', fill: '#aaffaa',
                 backgroundColor: '#0a2e0a',
                 padding: { x: 8, y: 4 }
@@ -221,7 +228,7 @@ export default class MenuScene extends Phaser.Scene {
     showSaveConfirmation(slot) {
         const { width, height } = this.scale
         const txt = this.add.text(width / 2, height / 2 - 160,
-            `✅ Slot ${slot} sauvegardé !`, {
+            `✅ ${i18n.t('game.menu.save.slot')} ${slot} ${i18n.t('game.menu.save.confirmed')}`, {
             fontSize: '14px', fill: '#aaffaa',
             backgroundColor: '#0a2e0a',
             padding: { x: 8, y: 4 }

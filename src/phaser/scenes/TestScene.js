@@ -24,8 +24,7 @@ export default class TestScene extends Phaser.Scene {
         this.playerManager.preload(this)
     }
 
-    create() {
-
+    create() {       
         // Joueur
         // Récupère la position depuis Redux
         const gameState = store.getState().game
@@ -34,13 +33,15 @@ export default class TestScene extends Phaser.Scene {
         
         // Joueur — utilise la position sauvegardée
         this.playerManager.create(spawnX, spawnY)
-        
+        this.playerManager.setActive(true)
         // Map
         this.mapManager = new MapManager(this)
         this.mapManager
             .loadMap('zone_test')
             .setupCamera(this.playerManager.getSprite())
             .addCollider(this.playerManager.getSprite())
+
+        
 
         // TriggerManager
         this.triggerManager = new TriggerManager(this, this.playerManager.getSprite())
