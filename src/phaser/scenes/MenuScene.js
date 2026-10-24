@@ -130,7 +130,7 @@ export default class MenuScene extends Phaser.Scene {
         const startY = height / 2 - 90
 
         // Chargement
-        const loadTxt = this.add.text(width / 2, height / 2, 'Chargement...', {
+        const loadTxt = this.add.text(width / 2, height / 2, i18next.t('game.loading'), {
             fontSize: '14px', fill: '#888888'
         }).setOrigin(0.5)
         this.contentContainer.add(loadTxt)
@@ -169,11 +169,16 @@ export default class MenuScene extends Phaser.Scene {
                     fontSize: '13px', fill: '#ffcc00', fontStyle: 'bold'
                 })
                 const timeTxt = this.add.text(width / 2 - 190, y + 18,
-                    `${i18next.t('game.menu.save.time')} : ${this.formatTime(save.playTime)}  |  ${i18next.t('game.menu.save.gold')} : ${save.gold}`, {
+                    /*`${i18next.t('game.menu.save.time')} : ${this.formatTime(save.playTime)}  |  */
+                    `${i18next.t('game.menu.save.gold')} : ${save.gold}`, {
                     fontSize: '12px', fill: '#aaaaaa'
                 })
                 const dateTxt = this.add.text(width / 2 - 190, y + 34,
-                    `${i18next.t('game.menu.save.savedAt')} : ${new Date(save.updatedAt).toLocaleString()}`, {
+                    `${i18next.t('game.menu.save.savedAt')} : ${
+                        save.updatedAt 
+                            ? new Date(save.updatedAt).toLocaleString()
+                            : new Date(save.createdAt).toLocaleString()
+                    }`, {
                     fontSize: '11px', fill: '#777777'
                 })
                 this.contentContainer.add([infoTxt, timeTxt, dateTxt])

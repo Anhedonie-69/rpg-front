@@ -87,13 +87,13 @@ export default function SaveSelect() {
                                     ) : (
                                         <>
                                             <p className="text-sm text-gray-300">
-                                                Map : {save.mapId}
+                                                {t('game.menu.save.map')} : {save.mapId}
                                             </p>
                                             <p className="text-sm text-gray-300">
-                                                Temps : {formatTime(save.playTime)} | Or : {save.gold}
+                                                {t('game.menu.save.gold')} : {save.gold}
                                             </p>
                                             <p className="text-xs text-gray-500">
-                                                {new Date(save.updatedAt).toLocaleString('fr-FR')}
+                                                {new Date(save.updatedAt ?? save.createdAt).toLocaleString('fr-FR')}
                                             </p>
                                         </>
                                     )}

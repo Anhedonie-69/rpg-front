@@ -100,6 +100,7 @@
             "empty": "Empty",
             "time": "Time",
             "gold": "Gold",
+            "map": "Map",
             "savedAt": "Saved on",
             "saveBtn": "Save",
             "confirmed": "saved!"

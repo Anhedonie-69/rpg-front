@@ -70,8 +70,9 @@ export default class NPCManager {
             )
 
             if (dist <= npc.range) {
-                // PNJ à portée
                 this.nearbyNPC = npc
+
+                npc.indicator.setText(i18next.t('game.npc.interact'))
                 npc.indicator.setVisible(true)
 
                 // Joueur appuie sur E
